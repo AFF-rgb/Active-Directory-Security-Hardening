@@ -7,6 +7,9 @@ Prepare the Windows Server 2022 host that will become the lab's Active Directory
 ## Verified environment details
 
 - Operating system: Windows Server 2022 Standard Evaluation
+- Windows version reported: `2009`
+- OS build: `20348`
+- Architecture: 64-bit
 - Hostname: `DC01-Lab`
 - Primary DNS suffix: `stech.net`
 - DNS suffix search list: `stech.net`
