@@ -142,7 +142,7 @@ These values describe the AD domain and forest functional levels, not the Window
 - [x] Core AD services reported Running.
 - [x] Domain and forest functional levels recorded.
 - [ ] Sanitized GUI screenshots of Server Manager and IPv4 properties.
-- [ ] Windows Update GUI status captured.
+- [x] Windows Update GUI checked; no updates were available at the time of the check.
 - [ ] Confirm exact time-zone setting.
 - [ ] Confirm hostname change history (`DC01` versus `DC01-Lab`).
 
