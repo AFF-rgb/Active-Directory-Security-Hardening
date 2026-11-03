@@ -31,6 +31,7 @@ The network configuration was captured from `ipconfig /all` on `DC01-Lab`. The a
 - [x] DNS lookup for `stech.net` — resolved to `192.168.1.100` using the local DNS service (`localhost / ::1`).
 - [x] Active Directory LDAP SRV lookup — `_ldap._tcp.dc._msdcs.stech.net` returned an SRV record pointing to `dc01-lab.stech.net` on TCP port `389` (priority 0, weight 100); the hostname resolved to `192.168.1.100`.
 - [ ] External network connectivity test, if applicable.
+- [x] `dcdiag /test:dns` — Connectivity test passed; DNS test passed for `DC01-LAB`; enterprise DNS test passed for `stech.net`. Partition checks ran for ForestDnsZones, DomainDnsZones, Schema, Configuration, and the domain partition.
 
 ## Configuration record
 
@@ -50,12 +51,13 @@ The chronological setup record will cover:
 - [x] Default gateway reachability confirmed.
 - [x] `nslookup stech.net` result reviewed.
 - [x] `nslookup -type=SRV _ldap._tcp.dc._msdcs.stech.net` result reviewed.
+- [x] `dcdiag /test:dns` output reviewed.
 - [ ] Sanitized screenshots of network configuration and connectivity tests.
 - [ ] Windows update status and installed roles/features.
 - [ ] Pre-promotion readiness checks.
 
 ## Notes
 
-The host is configured with a static IPv4 address and uses loopback DNS entries. The successful LDAP SRV lookup confirms that DNS advertises the domain controller's LDAP service locator record and resolves the target host to the expected lab address. This is a useful AD DNS validation, but does not by itself establish full domain-controller health or validate every AD-related SRV record.
+The host is configured with a static IPv4 address and uses loopback DNS entries. The successful LDAP SRV lookup confirms that DNS advertises the domain controller's LDAP service locator record and resolves the target host to the expected lab address. The DNS diagnostic also reported successful connectivity and DNS tests. These checks provide useful evidence of AD DNS health, but do not constitute a complete `dcdiag` health assessment.
 
 > Do not publish credentials, recovery secrets, MAC addresses, DHCPv6 DUIDs, or screenshots containing sensitive information.
