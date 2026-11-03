@@ -2,38 +2,86 @@
 
 ## Objective
 
-Apply a common baseline to employee Windows computers through Group Policy.
+Apply a common endpoint-security baseline to domain-joined Windows computers through Group Policy, covering Microsoft Defender Antivirus and Windows Defender Firewall.
 
-## OU and GPO scope
+## Lab scope
 
+- Domain: `stech.net`
+- Domain Controller: `DC01-Lab`
 - Computer OU: `STECH-HQ\Computers\Standard-PCs`
 - GPO: `GPO-Common-PC-Security`
-- GPO linked to parent OU: `STECH-HQ\Computers`
-- Security filtering: Authenticated Users
-- Client tested: `A`
+- GPO link: `STECH-HQ\Computers`
+- Security filtering: `Authenticated Users`
+- Client validated: `A` (Windows 10 Pro)
 
-## Configured controls
+## Configuration
+
+All configuration below was reviewed in the Group Policy Management Editor and Windows Defender Firewall Properties.
 
 ### Microsoft Defender Antivirus
 
-- The policy **Turn off real-time protection** is set to Disabled, so this GPO does not turn off real-time protection.
-- Microsoft MAPS membership configured as Basic.
-- Extended cloud check configured.
+GUI path:
+
+`Computer Configuration > Policies > Administrative Templates > Windows Components > Microsoft Defender Antivirus`
+
+- **Turn off real-time protection:** Disabled. This policy therefore does not disable real-time protection.
+- **Join Microsoft MAPS:** Enabled; membership option set to **Advanced MAPS**.
+- **Configure extended cloud check:** Enabled; extended cloud check time set to **0 seconds**.
 
 ### Windows Defender Firewall
 
-Domain, Private, and Public profiles:
-- Firewall enabled.
-- Default inbound action: Block.
-- Default outbound action: Allow.
-- Dropped-packet logging enabled.
-- Log file configured as `%systemroot%\system32\logfiles\firewall\pfirewall.log`.
-- Maximum log size configured as 16,384 KB.
+GUI path:
+
+`Computer Configuration > Policies > Windows Settings > Security Settings > Windows Defender Firewall with Advanced Security`
+
+The Domain, Private, and Public profiles were each verified with:
+
+| Setting | Configured value |
+|---|---|
+| Firewall state | On |
+| Inbound connections | Block (default) |
+| Outbound connections | Allow (default) |
+| Log dropped packets | Yes |
+| Log successful connections | No |
+| Log file path | `%systemroot%\system32\logfiles\firewall\pfirewall.log` |
+| Maximum log size | 16,384 KB |
 
 ## Validation
 
-- `gpresult /scope computer /r` showed the GPO as applied on client `A`.
-- `Get-MpComputerStatus` showed antivirus and real-time protection status enabled.
-- `Get-NetFirewallProfile` was checked and the user confirmed the three profiles were enabled with the intended default actions and blocked-packet logging.
+Validation was performed on client `A`.
 
-MAPS and extended cloud-check behavior were configured but not independently demonstrated by a dedicated functional test.
+### Group Policy application
+
+Command:
+
+```cmd
+gpresult /scope computer /r
+```
+
+Result: `GPO-Common-PC-Security` appeared under **Applied Group Policy Objects**.
+
+### Microsoft Defender status
+
+Command:
+
+```powershell
+Get-MpComputerStatus | Select-Object AMServiceEnabled, AntivirusEnabled, RealTimeProtectionEnabled, BehaviorMonitorEnabled, IoavProtectionEnabled, NISEnabled
+```
+
+All six returned values were `True`:
+
+- `AMServiceEnabled`
+- `AntivirusEnabled`
+- `RealTimeProtectionEnabled`
+- `BehaviorMonitorEnabled`
+- `IoavProtectionEnabled`
+- `NISEnabled`
+
+### Firewall profile validation
+
+The three firewall profiles were checked with `Get-NetFirewallProfile` during the lab validation. The user also reviewed each profile's properties and logging customization in the GUI. All three profiles showed the configured firewall state, default actions, and logging values listed above.
+
+## Validation limitations
+
+- MAPS membership and extended cloud-check settings were confirmed in the policy editor; no separate functional test of cloud-delivered protection behavior was performed.
+- This chapter documents the configured baseline and the checks performed on the lab client. It does not claim that every possible Defender or firewall detection scenario was tested.
