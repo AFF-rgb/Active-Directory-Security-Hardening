@@ -7,26 +7,44 @@ Use Windows Local Administrator Password Solution (Windows LAPS) to manage and p
 ## Implemented configuration
 
 - Prepared the Active Directory schema using the Windows LAPS PowerShell module.
-- Created and linked `GPO-Windows-LAPS`.
+- Created `GPO-Windows-LAPS` and configured its settings through Group Policy Management Editor.
 - Configured password backup to Active Directory.
 - Configured a 16-character password using all four character types and a 30-day age.
 - Enabled password encryption.
-- Configured `STECH\Domain Admins` as authorized password decryptors.
+- Configured `STECH\Domain Admins` as the authorized password-decryption principal.
 - Enabled the local built-in Administrator account on client `A` after LAPS reported that the configured account was disabled.
+- Linked the GPO at the domain and subsequently linked it to the `STECH-HQ\Computers` OU. Security filtering included computer account `A$`. The child OU `Standard-PCs` is within the Computers OU.
 
-## Validation
+## OU move and troubleshooting
 
-- Ran Group Policy refresh and LAPS policy processing on client `A`.
-- Retrieved the computer's LAPS record from the domain controller.
-- Confirmed successful decryption by an authorized Domain Admin.
-- Tested retrieval as standard user `a.fadous`; decryption was unauthorized and the password was not disclosed.
-
-## Follow-up required
-
-The computer object was subsequently moved from the default Computers container to:
+The computer object was moved from the default Computers container to:
 
 `OU=Standard-PCs,OU=Computers,OU=STECH-HQ,DC=stech,DC=net`
 
-The computer self-permission and delegated read-password permissions were originally configured on the default Computers container. Recheck and apply the required LAPS permissions to the new OU before treating the OU scope as production-ready or expanding deployment.
+After the move, Windows LAPS reported `LDAP_INSUFFICIENT_RIGHTS` while attempting to update the password attribute in Active Directory. The client also reported error `0x80070032` during policy processing. Refreshing Group Policy and changing the GPO link did not resolve the issue.
 
-Never commit LAPS passwords, password attributes, or screenshots exposing them.
+The LAPS event identified missing computer self-permissions on the new OU. The permission was corrected on `DC01-Lab` using the Windows LAPS PowerShell cmdlet:
+
+```powershell
+Set-LapsADComputerSelfPermission -Identity 'OU=Standard-PCs,OU=Computers,OU=STECH-HQ,DC=stech,DC=net'
+```
+
+This is a documented PowerShell prerequisite/administrative permission step, not a GUI configuration step. The GPO settings themselves were configured and reviewed through the GUI.
+
+## Validation
+
+- Refreshed Group Policy on client `A` after the OU permission update.
+- Windows LAPS Operational log reported that policy processing succeeded.
+- In Active Directory Users and Computers, the computer object's `msLAPS-EncryptedPassword` attribute was populated with encrypted data.
+- The legacy `msLAPS-Password` attribute was not set, consistent with the configured encrypted-password storage.
+- Before the OU move, an authorized Domain Admin successfully retrieved and decrypted the computer's LAPS password. A standard user (`a.fadous`) was not authorized to decrypt it. Password values are intentionally not included in this repository.
+
+## Remaining verification
+
+- Reconfirm authorized Domain Admin retrieval/decryption for computer `A` after the OU move and self-permission correction.
+- Review whether any delegated LAPS password-read permissions are required on `Standard-PCs` for additional administrative groups. The self-permission correction alone does not establish that other groups have read access.
+- Do not expand deployment until the required OU permissions and authorized retrieval workflow have been validated for the intended administrative groups.
+
+## Security precautions
+
+Never commit LAPS passwords, password attribute contents, credentials, or screenshots exposing them. Treat both encrypted and clear-text LAPS attributes as sensitive data.
