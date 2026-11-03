@@ -31,6 +31,18 @@ The network configuration was captured from `ipconfig /all` on `DC01-Lab`. The a
 - [x] DNS lookup for `stech.net` — resolved to `192.168.1.100` using the local DNS service (`localhost / ::1`).
 - [x] Active Directory LDAP SRV lookup — `_ldap._tcp.dc._msdcs.stech.net` returned an SRV record pointing to `dc01-lab.stech.net` on TCP port `389` (priority 0, weight 100); the hostname resolved to `192.168.1.100`.
 - [ ] External network connectivity test, if applicable.
+
+### Core Active Directory services
+
+The following services were queried with `Get-Service NTDS,DNS,Netlogon,KDC,DFSR` on `DC01-Lab`; all five reported `Running`:
+
+| Service | Role | Observed status |
+|---|---|---|
+| NTDS | Active Directory Domain Services | Running |
+| DNS | DNS Server | Running |
+| Netlogon | Netlogon | Running |
+| KDC | Kerberos Key Distribution Center | Running |
+| DFSR | DFS Replication | Running |
 - [x] `dcdiag /test:dns` — Connectivity test passed; DNS test passed for `DC01-LAB`; enterprise DNS test passed for `stech.net`. Partition checks ran for ForestDnsZones, DomainDnsZones, Schema, Configuration, and the domain partition.
 
 ## Configuration record
