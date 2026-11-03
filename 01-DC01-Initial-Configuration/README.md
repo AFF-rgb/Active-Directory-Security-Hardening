@@ -2,81 +2,154 @@
 
 ## Objective
 
-Prepare the Windows Server 2022 host that will become the lab's Active Directory domain controller.
+Prepare the Windows Server 2022 host for its role as the Active Directory domain controller.
 
-## Verified environment details
+## Verified environment
 
-- Operating system: Windows Server 2022 Standard Evaluation
-- Windows version reported: `2009`
-- OS build: `20348`
-- Architecture: 64-bit
-- Hostname: `DC01-Lab`
-- Primary DNS suffix: `stech.net`
-- DNS suffix search list: `stech.net`
-- Network adapter: Intel(R) 82574L Gigabit Network Connection
-- DHCP: Disabled (manually configured IPv4 address)
-
-## Verified IPv4 configuration
-
-| Setting | Value |
+| Property | Value |
 |---|---|
+| Operating system | Windows Server 2022 Standard Evaluation |
+| OS build | 20348 |
+| Architecture | 64-bit |
+| Hostname | `DC01-Lab` |
+| Domain DNS suffix | `stech.net` |
 | IPv4 address | `192.168.1.100` |
-| Subnet mask | `255.255.255.0` (`/24`) |
+| Subnet mask | `255.255.255.0` |
 | Default gateway | `192.168.1.1` |
-| Preferred DNS entries | `::1`, `127.0.0.1` |
-| IPv4 address assignment | Static / DHCP disabled |
+| DNS client entries | `::1`, `127.0.0.1` |
+| DHCP | Disabled |
 
-The network configuration was captured from `ipconfig /all` on `DC01-Lab`. The adapter's MAC address and DHCPv6 DUID are intentionally omitted from this public portfolio.
+The hardware MAC address and DHCPv6 DUID are intentionally excluded from this public portfolio.
 
-## Network and DNS validation
+## GUI procedure — Initial server preparation
 
-- [x] Default gateway ping to `192.168.1.1` — successful replies confirmed.
-- [x] DNS lookup for `stech.net` — resolved to `192.168.1.100` using the local DNS service (`localhost / ::1`).
-- [x] Active Directory LDAP SRV lookup — `_ldap._tcp.dc._msdcs.stech.net` returned an SRV record pointing to `dc01-lab.stech.net` on TCP port `389` (priority 0, weight 100); the hostname resolved to `192.168.1.100`.
-- [ ] External network connectivity test, if applicable.
+The server was configured through the Windows Server graphical interface. The steps below describe the GUI workflow used in the lab.
+
+### Step 1 — Configure the computer name
+
+1. Open **Server Manager**.
+2. Select **Local Server** in the left pane.
+3. Click the current **Computer name** value.
+4. In the System Properties window, select **Change**.
+5. Enter the computer name: `DC01` (the resulting verified hostname is `DC01-Lab`; see note below).
+6. Confirm the change and restart when prompted.
+
+> **Naming clarification:** The current verified hostname from `ipconfig /all` is `DC01-Lab`. The original notes mention entering `DC01`; confirm whether this was later renamed to `DC01-Lab` before treating that intermediate value as final history.
+
+### Step 2 — Configure the time zone
+
+1. In **Server Manager → Local Server**, click the displayed **Time zone** value.
+2. Select the correct time zone for the lab host.
+3. Confirm the selection.
+
+The exact time-zone selection has not yet been recorded in the available evidence.
+
+### Step 3 — Configure a static IPv4 address
+
+1. Open **Server Manager → Local Server**.
+2. Click the **Ethernet** link to open Network Connections.
+3. Right-click the active Ethernet adapter and select **Properties**.
+4. Select **Internet Protocol Version 4 (TCP/IPv4)**.
+5. Click **Properties**.
+6. Select **Use the following IP address**.
+7. Enter the lab's verified values:
+   - IP address: `192.168.1.100`
+   - Subnet mask: `255.255.255.0`
+   - Default gateway: `192.168.1.1`
+8. Configure the DNS entries as recorded in the verified adapter output: `::1` and `127.0.0.1`.
+9. Click **OK**, then **Close** to apply the adapter settings.
+
+### Step 4 — Verify network settings
+
+1. Open Command Prompt.
+2. Run `ipconfig /all`.
+3. Confirm the hostname, static IPv4 address, subnet mask, gateway, and DNS entries.
+
+**Observed result:** DHCP was disabled. The adapter reported IPv4 `192.168.1.100/24`, gateway `192.168.1.1`, and DNS entries `::1` and `127.0.0.1`.
+
+### Step 5 — Prepare for Active Directory Domain Services
+
+The next stage of the original GUI workflow used **Server Manager → Manage → Add Roles and Features** to install the AD DS role, followed by the post-installation promotion wizard. Those actions are documented in the separate [Active Directory Domain Services chapter](../02-Active-Directory-Domain-Services/README.md).
+
+## Verification evidence
+
+The following commands were used for verification only; they were not used to configure the server.
+
+### Gateway connectivity
+
+- Ping to `192.168.1.1`: successful replies confirmed by the user.
+
+### Domain DNS resolution
+
+Command: `nslookup stech.net`
+
+- DNS server reported: localhost (`::1`)
+- Resolved address: `192.168.1.100`
+
+### Active Directory LDAP service record
+
+Command: `nslookup -type=SRV _ldap._tcp.dc._msdcs.stech.net`
+
+- SRV target: `dc01-lab.stech.net`
+- Port: `389`
+- Priority: `0`
+- Weight: `100`
+- Target address: `192.168.1.100`
+
+### DNS diagnostics
+
+Command: `dcdiag /test:dns`
+
+- Connectivity test: Passed
+- DNS test on `DC01-LAB`: Passed
+- Enterprise DNS test for `stech.net`: Passed
+- DNS partition checks ran for ForestDnsZones, DomainDnsZones, Schema, Configuration, and the domain partition.
 
 ### Core Active Directory services
 
-The following services were queried with `Get-Service NTDS,DNS,Netlogon,KDC,DFSR` on `DC01-Lab`; all five reported `Running`:
+The user checked the following services; all reported **Running**:
 
-| Service | Role | Observed status |
-|---|---|---|
-| NTDS | Active Directory Domain Services | Running |
-| DNS | DNS Server | Running |
-| Netlogon | Netlogon | Running |
-| KDC | Kerberos Key Distribution Center | Running |
-| DFSR | DFS Replication | Running |
-- [x] `dcdiag /test:dns` — Connectivity test passed; DNS test passed for `DC01-LAB`; enterprise DNS test passed for `stech.net`. Partition checks ran for ForestDnsZones, DomainDnsZones, Schema, Configuration, and the domain partition.
+| Service | Display name |
+|---|---|
+| NTDS | Active Directory Domain Services |
+| DNS | DNS Server |
+| Netlogon | Netlogon |
+| KDC | Kerberos Key Distribution Center |
+| DFSR | DFS Replication |
 
-## Configuration method
+### Domain and forest configuration
 
-The lab was configured primarily through the Windows graphical user interface (GUI). The step-by-step procedures in this portfolio will therefore document the relevant consoles, navigation paths, selections, values, and Apply/OK actions. PowerShell and Command Prompt are used only where appropriate for validation or evidence; they are not presented as the configuration method when the setting was applied through the GUI.
+Verified using Active Directory PowerShell queries:
 
-## Configuration record
+| Property | Value |
+|---|---|
+| DNS domain | `stech.net` |
+| NetBIOS name | `STECH` |
+| Domain functional level | `Windows2016Domain` |
+| Forest root | `stech.net` |
+| Forest functional level | `Windows2016Forest` |
 
-The chronological setup record will cover:
+These values describe the AD domain and forest functional levels, not the Windows Server operating-system version.
 
-1. Windows Server installation and edition
-2. Hostname configuration
-3. Static IPv4 configuration
-4. DNS client configuration
-5. Network connectivity checks
-6. Windows updates and installed roles/features
-7. Pre-promotion readiness checks
+## Evidence checklist
 
-## Evidence
-
-- [x] `ipconfig /all` output reviewed.
+- [x] Server hostname and network configuration reviewed.
+- [x] Static IPv4 configuration confirmed.
 - [x] Default gateway reachability confirmed.
-- [x] `nslookup stech.net` result reviewed.
-- [x] `nslookup -type=SRV _ldap._tcp.dc._msdcs.stech.net` result reviewed.
-- [x] `dcdiag /test:dns` output reviewed.
-- [ ] Sanitized screenshots of network configuration and connectivity tests.
-- [ ] Windows update status and installed roles/features.
-- [ ] Pre-promotion readiness checks.
+- [x] Domain DNS A-record lookup confirmed.
+- [x] LDAP SRV record lookup confirmed.
+- [x] DNS diagnostics passed.
+- [x] Core AD services reported Running.
+- [x] Domain and forest functional levels recorded.
+- [ ] Sanitized GUI screenshots of Server Manager and IPv4 properties.
+- [ ] Windows Update GUI status captured.
+- [ ] Confirm exact time-zone setting.
+- [ ] Confirm hostname change history (`DC01` versus `DC01-Lab`).
 
-## Notes
+## Documentation standard
 
-The host is configured with a static IPv4 address and uses loopback DNS entries. The successful LDAP SRV lookup confirms that DNS advertises the domain controller's LDAP service locator record and resolves the target host to the expected lab address. The DNS diagnostic also reported successful connectivity and DNS tests. These checks provide useful evidence of AD DNS health, but do not constitute a complete `dcdiag` health assessment.
+This portfolio documents configuration through the GUI because that is how the lab was performed. Each implementation procedure will identify the management console, navigation path, setting, selected value, and confirmation action. Command Prompt and PowerShell output are included only as validation evidence when applicable.
 
-> Do not publish credentials, recovery secrets, MAC addresses, DHCPv6 DUIDs, or screenshots containing sensitive information.
+## Security and privacy
+
+Never publish passwords, DSRM secrets, password hashes, LAPS values, private keys, access tokens, MAC addresses, DHCPv6 DUIDs, or unredacted screenshots. The source notes contain credential examples; those values must not be copied into this public repository.
