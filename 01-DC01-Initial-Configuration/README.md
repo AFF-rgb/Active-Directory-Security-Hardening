@@ -7,12 +7,27 @@ Prepare the Windows Server 2022 host that will become the lab's Active Directory
 ## Verified environment details
 
 - Operating system: Windows Server 2022 Standard Evaluation
-- Verified hostname: `DC01-Lab`
-- Domain later established: `stech.net`
+- Hostname: `DC01-Lab`
+- Primary DNS suffix: `stech.net`
+- DNS suffix search list: `stech.net`
+- Network adapter: Intel(R) 82574L Gigabit Network Connection
+- DHCP: Disabled (manually configured IPv4 address)
+
+## Verified IPv4 configuration
+
+| Setting | Value |
+|---|---|
+| IPv4 address | `192.168.1.100` |
+| Subnet mask | `255.255.255.0` (`/24`) |
+| Default gateway | `192.168.1.1` |
+| Preferred DNS entries | `::1`, `127.0.0.1` |
+| IPv4 address assignment | Static / DHCP disabled |
+
+The network configuration was captured from `ipconfig /all` on `DC01-Lab`. The adapter's MAC address and DHCPv6 DUID are intentionally omitted from this public portfolio.
 
 ## Configuration record
 
-This chapter will document the original server preparation in chronological order:
+The chronological setup record will cover:
 
 1. Windows Server installation and edition
 2. Hostname configuration
@@ -22,8 +37,16 @@ This chapter will document the original server preparation in chronological orde
 6. Windows updates and installed roles/features
 7. Pre-promotion readiness checks
 
-## Evidence required
+## Evidence
 
-Add sanitized screenshots or command output for System/About, hostname, IP configuration, DNS settings, network tests, and Server Manager.
+- [x] `ipconfig /all` output reviewed.
+- [ ] Sanitized screenshot of the network configuration.
+- [ ] Connectivity tests (gateway and DNS resolution).
+- [ ] Windows update status and installed roles/features.
+- [ ] Pre-promotion readiness checks.
 
-> **Documentation accuracy:** Exact IP addresses, subnet mask, gateway, DNS settings, installation date, and update status have not yet been established in the current project record. They will be added only after verification. Do not publish credentials or recovery secrets.
+## Notes
+
+The host is configured with a static IPv4 address and uses loopback DNS entries. The available output confirms the configured DNS addresses, but does not by itself prove successful DNS resolution or domain-controller health. Those checks will be documented separately when performed.
+
+> Do not publish credentials, recovery secrets, MAC addresses, DHCPv6 DUIDs, or screenshots containing sensitive information.
