@@ -27,8 +27,8 @@ The network configuration was captured from `ipconfig /all` on `DC01-Lab`. The a
 
 ## Network connectivity validation
 
-- [x] Default gateway ping to `192.168.1.1` — user confirmed successful replies.
-- [ ] DNS resolution test.
+- [x] Default gateway ping to `192.168.1.1` — successful replies confirmed.
+- [x] DNS lookup for `stech.net` — resolved to `192.168.1.100` using the local DNS service (`localhost / ::1`).
 - [ ] External network connectivity test, if applicable.
 
 ## Configuration record
@@ -47,12 +47,13 @@ The chronological setup record will cover:
 
 - [x] `ipconfig /all` output reviewed.
 - [x] Default gateway reachability confirmed.
-- [ ] Sanitized screenshots of network configuration and ping result.
+- [x] `nslookup stech.net` result reviewed.
+- [ ] Sanitized screenshots of network configuration and connectivity tests.
 - [ ] Windows update status and installed roles/features.
 - [ ] Pre-promotion readiness checks.
 
 ## Notes
 
-The host is configured with a static IPv4 address and uses loopback DNS entries. The successful gateway ping confirms local network reachability to the configured default gateway; it does not by itself prove successful DNS resolution, internet access, or domain-controller health.
+The host is configured with a static IPv4 address and uses loopback DNS entries. The successful lookup confirms that the local DNS service returned the domain's A record as `192.168.1.100`. It does not, by itself, validate all required AD DNS service records (such as SRV records) or domain-controller health.
 
 > Do not publish credentials, recovery secrets, MAC addresses, DHCPv6 DUIDs, or screenshots containing sensitive information.
