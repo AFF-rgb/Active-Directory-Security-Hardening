@@ -25,10 +25,11 @@ Prepare the Windows Server 2022 host that will become the lab's Active Directory
 
 The network configuration was captured from `ipconfig /all` on `DC01-Lab`. The adapter's MAC address and DHCPv6 DUID are intentionally omitted from this public portfolio.
 
-## Network connectivity validation
+## Network and DNS validation
 
 - [x] Default gateway ping to `192.168.1.1` — successful replies confirmed.
 - [x] DNS lookup for `stech.net` — resolved to `192.168.1.100` using the local DNS service (`localhost / ::1`).
+- [x] Active Directory LDAP SRV lookup — `_ldap._tcp.dc._msdcs.stech.net` returned an SRV record pointing to `dc01-lab.stech.net` on TCP port `389` (priority 0, weight 100); the hostname resolved to `192.168.1.100`.
 - [ ] External network connectivity test, if applicable.
 
 ## Configuration record
@@ -48,12 +49,13 @@ The chronological setup record will cover:
 - [x] `ipconfig /all` output reviewed.
 - [x] Default gateway reachability confirmed.
 - [x] `nslookup stech.net` result reviewed.
+- [x] `nslookup -type=SRV _ldap._tcp.dc._msdcs.stech.net` result reviewed.
 - [ ] Sanitized screenshots of network configuration and connectivity tests.
 - [ ] Windows update status and installed roles/features.
 - [ ] Pre-promotion readiness checks.
 
 ## Notes
 
-The host is configured with a static IPv4 address and uses loopback DNS entries. The successful lookup confirms that the local DNS service returned the domain's A record as `192.168.1.100`. It does not, by itself, validate all required AD DNS service records (such as SRV records) or domain-controller health.
+The host is configured with a static IPv4 address and uses loopback DNS entries. The successful LDAP SRV lookup confirms that DNS advertises the domain controller's LDAP service locator record and resolves the target host to the expected lab address. This is a useful AD DNS validation, but does not by itself establish full domain-controller health or validate every AD-related SRV record.
 
 > Do not publish credentials, recovery secrets, MAC addresses, DHCPv6 DUIDs, or screenshots containing sensitive information.
