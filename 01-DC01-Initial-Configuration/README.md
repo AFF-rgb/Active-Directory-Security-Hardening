@@ -25,6 +25,12 @@ Prepare the Windows Server 2022 host that will become the lab's Active Directory
 
 The network configuration was captured from `ipconfig /all` on `DC01-Lab`. The adapter's MAC address and DHCPv6 DUID are intentionally omitted from this public portfolio.
 
+## Network connectivity validation
+
+- [x] Default gateway ping to `192.168.1.1` — user confirmed successful replies.
+- [ ] DNS resolution test.
+- [ ] External network connectivity test, if applicable.
+
 ## Configuration record
 
 The chronological setup record will cover:
@@ -40,13 +46,13 @@ The chronological setup record will cover:
 ## Evidence
 
 - [x] `ipconfig /all` output reviewed.
-- [ ] Sanitized screenshot of the network configuration.
-- [ ] Connectivity tests (gateway and DNS resolution).
+- [x] Default gateway reachability confirmed.
+- [ ] Sanitized screenshots of network configuration and ping result.
 - [ ] Windows update status and installed roles/features.
 - [ ] Pre-promotion readiness checks.
 
 ## Notes
 
-The host is configured with a static IPv4 address and uses loopback DNS entries. The available output confirms the configured DNS addresses, but does not by itself prove successful DNS resolution or domain-controller health. Those checks will be documented separately when performed.
+The host is configured with a static IPv4 address and uses loopback DNS entries. The successful gateway ping confirms local network reachability to the configured default gateway; it does not by itself prove successful DNS resolution, internet access, or domain-controller health.
 
 > Do not publish credentials, recovery secrets, MAC addresses, DHCPv6 DUIDs, or screenshots containing sensitive information.
