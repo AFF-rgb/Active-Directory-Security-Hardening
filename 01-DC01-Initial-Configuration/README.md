@@ -48,6 +48,10 @@ The following services were queried with `Get-Service NTDS,DNS,Netlogon,KDC,DFSR
 | DFSR | DFS Replication | Running |
 - [x] `dcdiag /test:dns` — Connectivity test passed; DNS test passed for `DC01-LAB`; enterprise DNS test passed for `stech.net`. Partition checks ran for ForestDnsZones, DomainDnsZones, Schema, Configuration, and the domain partition.
 
+## Configuration method
+
+The lab was configured primarily through the Windows graphical user interface (GUI). The step-by-step procedures in this portfolio will therefore document the relevant consoles, navigation paths, selections, values, and Apply/OK actions. PowerShell and Command Prompt are used only where appropriate for validation or evidence; they are not presented as the configuration method when the setting was applied through the GUI.
+
 ## Configuration record
 
 The chronological setup record will cover:
