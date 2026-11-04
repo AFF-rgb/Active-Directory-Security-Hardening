@@ -18,7 +18,9 @@ Verified the following security option is **Enabled**:
 
 **Audit: Force audit policy subcategory settings (Windows Vista or later) to override audit policy category settings**
 
-This makes advanced audit policy subcategory settings take precedence over legacy category-level audit policy settings.
+**What it does:** Ensures that Advanced Audit Policy subcategory settings take precedence over legacy category-level audit policy settings.
+
+**Why it is used:** Prevents legacy audit-policy settings from overriding the more granular subcategory configuration managed through this GPO.
 
 ## 2. Process creation command-line auditing
 
@@ -30,7 +32,9 @@ Policy path:
 
 `Computer Configuration > Policies > Administrative Templates > System > Audit Process Creation`
 
-This setting adds command-line details to process-creation events when available. Event ID **4688** was validated for process creation and command-line capture.
+**What it does:** Adds the command-line string to process-creation event records (Event ID **4688**) when command-line information is available.
+
+**Why it is used:** Provides additional context about how a process was launched, which can help analysts investigate suspicious commands, scripts, and execution activity. Command lines may contain sensitive information, so access to Security logs should be restricted.
 
 ## 3. Reviewed Advanced Audit Policy settings
 
@@ -38,73 +42,76 @@ Policy path:
 
 `Computer Configuration > Policies > Windows Settings > Security Settings > Advanced Audit Policy Configuration > System Audit Policies`
 
-The following subcategory settings were reviewed in the GPO editor.
+The following subcategory settings were reviewed in the GPO editor. The purpose column briefly explains the security-monitoring value of each configured setting.
 
 ### Logon/Logoff
 
-| Subcategory | GPO setting |
-|---|---|
-| Audit Logon | Success and Failure |
-| Audit Logoff | Success and Failure |
+| Subcategory | GPO setting | What it helps monitor |
+|---|---|---|
+| Audit Logon | Success and Failure | Records successful and failed sign-in attempts, helping identify suspicious authentication activity and potential brute-force attempts. |
+| Audit Logoff | Success and Failure | Records user logoff activity, providing session-lifecycle context during investigations. |
 
 ### Account Management
 
-| Subcategory | GPO setting |
-|---|---|
-| Audit User Account Management | Success and Failure |
-| Audit Security Group Management | Success and Failure |
-| Audit Computer Account Management | Success and Failure |
+| Subcategory | GPO setting | What it helps monitor |
+|---|---|---|
+| Audit User Account Management | Success and Failure | Tracks user-account actions such as creation, modification, enabling, disabling, and deletion. |
+| Audit Security Group Management | Success and Failure | Tracks security-group changes, including membership changes that may affect user privileges and access. |
+| Audit Computer Account Management | Success and Failure | Tracks computer-account creation, modification, and deletion in the domain. |
 
 ### Detailed Tracking
 
-| Subcategory | GPO setting |
-|---|---|
-| Audit Process Creation | Success |
-| Audit Process Termination | Success |
+| Subcategory | GPO setting | What it helps monitor |
+|---|---|---|
+| Audit Process Creation | Success | Records process-start activity (Event ID 4688), supporting investigation of program and command execution. |
+| Audit Process Termination | Success | Records process termination activity (commonly Event ID 4689), helping reconstruct process activity and timelines. |
 
 ### Policy Change
 
-| Subcategory | GPO setting |
-|---|---|
-| Audit Audit Policy Change | Success and Failure |
-| Audit Authentication Policy Change | Success |
-| Audit Authorization Policy Change | Success |
+| Subcategory | GPO setting | What it helps monitor |
+|---|---|---|
+| Audit Audit Policy Change | Success and Failure | Records changes to audit policy, helping detect attempts to weaken, disable, or alter security logging. |
+| Audit Authentication Policy Change | Success | Records changes to authentication policies, which may affect how identities authenticate. |
+| Audit Authorization Policy Change | Success | Records changes to authorization policies, which may affect permissions and access decisions. |
 
 ### Privilege Use
 
-| Subcategory | GPO setting |
-|---|---|
-| Audit Sensitive Privilege Use | Success and Failure |
+| Subcategory | GPO setting | What it helps monitor |
+|---|---|---|
+| Audit Sensitive Privilege Use | Success and Failure | Records use of sensitive user rights and privileges, helping investigate activity performed with elevated capabilities. |
 
 ### System
 
-| Subcategory | GPO setting |
-|---|---|
-| Audit Security State Change | Success |
-| Audit Security System Extension | Success and Failure |
-| Audit System Integrity | Success and Failure |
-| Audit Other System Events | Success and Failure |
+| Subcategory | GPO setting | What it helps monitor |
+|---|---|---|
+| Audit Security State Change | Success | Records changes to the system security state, such as startup or shutdown-related security state events. |
+| Audit Security System Extension | Success and Failure | Records events related to security-system extensions, including installation or loading of security packages and services. |
+| Audit System Integrity | Success and Failure | Records events involving system-integrity checks, including certain integrity or security-subsystem errors. |
+| Audit Other System Events | Success and Failure | Captures additional security-relevant system events that do not fit into the other System subcategories. |
 
 ### Object Access
 
-| Subcategory | GPO setting |
-|---|---|
-| Audit Application Generated | Not Configured |
-| Audit Certification Services | Not Configured |
-| Audit Detailed File Share | Success and Failure |
-| Audit File Share | Success and Failure |
-| Audit File System | Success and Failure |
-| Audit Filtering Platform Connection | Not Configured |
-| Audit Filtering Platform Packet Drop | Not Configured |
-| Audit Handle Manipulation | Not Configured |
-| Audit Kernel Object | Not Configured |
-| Audit Other Object Access Events | Success |
-| Audit Registry | Not Configured |
-| Audit Removable Storage | Success and Failure |
-| Audit SAM | Not Configured |
-| Audit Central Access Policy Staging | Not Configured |
+| Subcategory | GPO setting | What it helps monitor |
+|---|---|---|
+| Audit Detailed File Share | Success and Failure | Provides detailed records of file-share access, including requested access to shared resources. |
+| Audit File Share | Success and Failure | Records attempts to access shared folders over the network. |
+| Audit File System | Success and Failure | Records access to audited files and folders when matching SACL auditing entries are configured on those objects. |
+| Audit Other Object Access Events | Success | Captures additional object-access activity not covered by the other object-access subcategories. |
+| Audit Removable Storage | Success and Failure | Records attempts to access removable-storage devices, helping investigate USB and other removable-media activity. |
 
-**Note:** “Not Configured” means the subcategory is not explicitly configured in this GPO. It does not, by itself, establish the effective setting on the client.
+The following Object Access subcategories were **Not Configured** in this GPO and are listed for transparency; they are not presented as enabled by this chapter:
+
+- Audit Application Generated
+- Audit Certification Services
+- Audit Filtering Platform Connection
+- Audit Filtering Platform Packet Drop
+- Audit Handle Manipulation
+- Audit Kernel Object
+- Audit Registry
+- Audit SAM
+- Audit Central Access Policy Staging
+
+**Important:** For File System auditing, enabling the audit subcategory alone does not generate events for every file or folder. Appropriate auditing entries (SACLs) must also be configured on the target objects. “Not Configured” means the subcategory is not explicitly configured in this GPO; it does not, by itself, establish the effective setting on the client.
 
 ## 4. Group Policy application validation
 
@@ -156,6 +163,7 @@ The configured and validated auditing supports investigation of:
 - Changes to global security group membership.
 - File-system, file-share, and removable-storage access activity.
 - Sensitive privilege use and system-integrity events.
+- Computer-account and authentication/authorization policy changes.
 
 ## 8. Evidence
 
