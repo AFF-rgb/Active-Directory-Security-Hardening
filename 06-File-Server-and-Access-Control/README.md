@@ -138,8 +138,6 @@ The test folders were retained as lab evidence.
 - Everyone — Full Control is documented as the lab configuration, not a production recommendation. Apply least privilege when designing a production share ACL.
 - Do not publish passwords, LAPS values, or other credentials in screenshots or repository files.
 
-## 10. Evidence screenshots
-
 Screenshots will be added after the configuration documentation is complete:
 
 1. `C:\CompanyData` showing both folders.
