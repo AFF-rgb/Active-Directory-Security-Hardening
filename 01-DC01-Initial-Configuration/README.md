@@ -131,8 +131,6 @@ Verified using Active Directory PowerShell queries:
 
 These values describe the AD domain and forest functional levels, not the Windows Server operating-system version.
 
-## Evidence checklist
-
 - [x] Server hostname and network configuration reviewed.
 - [x] Static IPv4 configuration confirmed.
 - [x] Default gateway reachability confirmed.
