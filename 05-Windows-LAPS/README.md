@@ -47,4 +47,4 @@ This is a documented PowerShell prerequisite/administrative permission step, not
 
 ## Security precautions
 
-Never commit LAPS passwords, password attribute contents, credentials, or screenshots exposing them. Treat both encrypted and clear-text LAPS attributes as sensitive data.
+Never commit LAPS passwords, password attribute contents, or credentials. Treat both encrypted and clear-text LAPS attributes as sensitive data.
