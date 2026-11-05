@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900">
+<defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="#071a35"/><stop offset="1" stop-color="#123e70"/></linearGradient><linearGradient id="panel" x2="0" y2="1"><stop stop-color="#173f6c"/><stop offset="1" stop-color="#0d2b4e"/></linearGradient><marker id="arr" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0 0L9 3L0 6" fill="#56b4ff"/></marker></defs>
+<rect width="1400" height="900" fill="url(#bg)"/>
+<text x="70" y="82" fill="#fff" font-family="Arial,sans-serif" font-size="42" font-weight="700">Active Directory Security Hardening</text>
+<text x="72" y="126" fill="#9bdcff" font-family="Arial,sans-serif" font-size="23">Illustrative lab architecture • Windows Server 2022 • stech.net</text>
+<rect x="455" y="170" width="490" height="150" rx="18" fill="url(#panel)" stroke="#69bdff" stroke-width="3"/>
+<text x="700" y="220" text-anchor="middle" fill="#fff" font-family="Arial,sans-serif" font-size="31" font-weight="700">DC01-LAB</text>
+<text x="700" y="260" text-anchor="middle" fill="#d6ecff" font-family="Arial,sans-serif" font-size="22">Active Directory Domain Controller</text>
+<text x="700" y="292" text-anchor="middle" fill="#9bdcff" font-family="Arial,sans-serif" font-size="19">Domain: stech.net</text>
+<path d="M700 320V380M180 380H1220M180 380V430M520 380V430M880 380V430M1220 380V430" stroke="#56b4ff" stroke-width="4" fill="none" marker-end="url(#arr)"/>
+<g font-family="Arial,sans-serif">
+<rect x="55" y="445" width="250" height="180" rx="16" fill="#f0f7ff"/><text x="180" y="490" text-anchor="middle" fill="#12365c" font-size="25" font-weight="700">Identity</text><text x="180" y="535" text-anchor="middle" fill="#173b60" font-size="21">a.fadous</text><text x="180" y="570" text-anchor="middle" fill="#173b60" font-size="19">IT.sysadmin</text><text x="180" y="603" text-anchor="middle" fill="#2873ae" font-size="17">Users &amp; groups</text>
+<rect x="365" y="445" width="310" height="180" rx="16" fill="#f0f7ff"/><text x="520" y="490" text-anchor="middle" fill="#12365c" font-size="25" font-weight="700">File resources</text><text x="520" y="535" text-anchor="middle" fill="#173b60" font-size="21">IT_Share</text><text x="520" y="570" text-anchor="middle" fill="#173b60" font-size="21">HR_Share</text><text x="520" y="603" text-anchor="middle" fill="#2873ae" font-size="19">Z: → CompanyData$</text>
+<rect x="735" y="445" width="290" height="180" rx="16" fill="#f0f7ff"/><text x="880" y="490" text-anchor="middle" fill="#12365c" font-size="25" font-weight="700">Security controls</text><text x="880" y="535" text-anchor="middle" fill="#173b60" font-size="20">Windows LAPS</text><text x="880" y="570" text-anchor="middle" fill="#173b60" font-size="20">GPO • Defender • Firewall</text><text x="880" y="603" text-anchor="middle" fill="#2873ae" font-size="18">Password &amp; access policy</text>
+<rect x="1085" y="445" width="260" height="180" rx="16" fill="#f0f7ff"/><text x="1215" y="490" text-anchor="middle" fill="#12365c" font-size="25" font-weight="700">Endpoint</text><text x="1215" y="540" text-anchor="middle" fill="#173b60" font-size="22">Client A</text><text x="1215" y="578" text-anchor="middle" fill="#173b60" font-size="20">Windows 10 Pro</text><text x="1215" y="608" text-anchor="middle" fill="#2873ae" font-size="17">Domain joined</text>
+</g>
+<rect x="160" y="700" width="1080" height="120" rx="18" fill="#092543" stroke="#54b5ff" stroke-width="2"/>
+<text x="700" y="746" text-anchor="middle" fill="#fff" font-family="Arial,sans-serif" font-size="27" font-weight="700">Monitoring &amp; Validation</text>
+<text x="700" y="788" text-anchor="middle" fill="#c5e6ff" font-family="Arial,sans-serif" font-size="21">Advanced Audit Policy • Windows Security Events • Access-control testing</text>
+<text x="700" y="866" text-anchor="middle" fill="#9bdcff" font-family="Arial,sans-serif" font-size="16">Portfolio diagram only — replace with genuine lab screenshots for configuration evidence.</text>
+</svg>
