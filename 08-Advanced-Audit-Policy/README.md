@@ -169,8 +169,6 @@ The configured and validated auditing supports investigation of:
 - Sensitive privilege use and system-integrity events.
 - Computer-account and authentication/authorization policy changes.
 
-## 8. Evidence
-
 Add genuine, sanitized screenshots to this chapter as they are captured. Suggested evidence:
 
 - GPO audit-policy enforcement option.
