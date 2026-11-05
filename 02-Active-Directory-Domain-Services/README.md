@@ -70,8 +70,6 @@ The following checks were performed after deployment. They are validation eviden
 | `dcdiag /test:dns` | DNS connectivity and DNS tests passed |
 | Core services | NTDS, DNS, Netlogon, KDC, and DFSR reported Running |
 
-## Evidence checklist
-
 - [ ] Screenshot of AD DS selected in Add Roles and Features.
 - [ ] Screenshot of the successful role installation notification.
 - [ ] Screenshot of the new-forest selection showing `stech.net` (do not expose credentials).
