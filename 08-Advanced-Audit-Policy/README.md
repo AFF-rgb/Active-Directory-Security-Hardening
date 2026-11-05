@@ -178,7 +178,7 @@ Add genuine, sanitized screenshots to this chapter as they are captured. Suggest
 - `auditpol /get /category:*` output from client A.
 - Event Viewer examples for the validated event IDs, including Event 4688 command-line details.
 
-Do not include passwords, tokens, private data, or other sensitive information in screenshots.
+Do not include passwords, tokens, private data, or other sensitive information in published evidence.
 
 ## Outcome
 
