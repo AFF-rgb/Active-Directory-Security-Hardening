@@ -136,7 +136,7 @@ The test folders were retained as lab evidence.
 - A hidden share name and ABE improve discoverability/privacy; neither replaces authorization.
 - NTFS permissions enforce the departmental access boundary.
 - Everyone — Full Control is documented as the lab configuration, not a production recommendation. Apply least privilege when designing a production share ACL.
-- Do not publish passwords, LAPS values, or other credentials in screenshots or repository files.
+- Do not publish passwords, LAPS values, or other credentials in repository files.
 
 Screenshots will be added after the configuration documentation is complete:
 
