@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900">
+<defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="#071b35"/><stop offset="1" stop-color="#103d68"/></linearGradient><linearGradient id="panel" x2="0" y2="1"><stop stop-color="#123f6b"/><stop offset="1" stop-color="#0c2c4d"/></linearGradient><style>
+text{font-family:Arial,Helvetica,sans-serif;fill:#f3f8ff}.muted{fill:#b8d2eb}.title{font-size:38px;font-weight:700}.sub{font-size:18px}.head{font-size:23px;font-weight:700}.body{font-size:19px}.small{font-size:15px}.card{fill:url(#panel);stroke:#3e8cc9;stroke-width:2}.node{fill:#e9f4ff;stroke:#64aee8;stroke-width:2}.dark{fill:#08233e}.blue{fill:#3ea6f5}.green{fill:#6cdb9b}
+</style></defs>
+<rect width="1400" height="900" fill="url(#bg)"/>
+<text x="60" y="75" class="title">ACTIVE DIRECTORY SECURITY HARDENING</text>
+<text x="62" y="112" class="sub muted">Lab architecture overview • Windows Server 2022 • stech.net</text>
+<rect x="60" y="145" width="1280" height="130" rx="18" class="card"/>
+<text x="700" y="185" text-anchor="middle" class="head">DC01-LAB</text>
+<text x="700" y="218" text-anchor="middle" class="body">Windows Server 2022 • Active Directory Domain Services</text>
+<text x="700" y="247" text-anchor="middle" class="small muted">Domain: stech.net</text>
+<path d="M700 275 V330 M220 330 H1180 M220 330 V370 M540 330 V370 M860 330 V370 M1180 330 V370" stroke="#65b9ff" stroke-width="4" fill="none"/>
+<g><rect x="60" y="370" width="320" height="220" rx="16" class="node"/><text x="220" y="415" text-anchor="middle" class="head dark">IDENTITY</text><text x="220" y="460" text-anchor="middle" class="body dark">Domain users</text><text x="220" y="493" text-anchor="middle" class="body dark">IT staff group</text><text x="220" y="526" text-anchor="middle" class="body dark">Privileged accounts</text><text x="220" y="562" text-anchor="middle" class="small dark">OUs • Groups • Delegation</text></g>
+<g><rect x="380" y="370" width="320" height="220" rx="16" class="node"/><text x="540" y="415" text-anchor="middle" class="head dark">FILE SERVICES</text><text x="540" y="460" text-anchor="middle" class="body dark">IT_Share</text><text x="540" y="493" text-anchor="middle" class="body dark">HR_Share</text><text x="540" y="526" text-anchor="middle" class="body dark">Z:\CompanyData$</text><text x="540" y="562" text-anchor="middle" class="small dark">Share + NTFS permissions</text></g>
+<g><rect x="700" y="370" width="320" height="220" rx="16" class="node"/><text x="860" y="415" text-anchor="middle" class="head dark">SECURITY CONTROLS</text><text x="860" y="460" text-anchor="middle" class="body dark">Password policy + FGPP</text><text x="860" y="493" text-anchor="middle" class="body dark">Windows LAPS</text><text x="860" y="526" text-anchor="middle" class="body dark">GPO • Defender • Firewall</text><text x="860" y="562" text-anchor="middle" class="small dark">Least privilege • Hardening</text></g>
+<g><rect x="1020" y="370" width="320" height="220" rx="16" class="node"/><text x="1180" y="415" text-anchor="middle" class="head dark">MONITORING</text><text x="1180" y="460" text-anchor="middle" class="body dark">Advanced Audit Policy</text><text x="1180" y="493" text-anchor="middle" class="body dark">Windows Security log</text><text x="1180" y="526" text-anchor="middle" class="body dark">Validated event examples</text><text x="1180" y="562" text-anchor="middle" class="small dark">Visibility • Investigation</text></g>
+<path d="M700 590 V650" stroke="#65b9ff" stroke-width="4"/>
+<rect x="350" y="650" width="700" height="110" rx="18" class="card"/>
+<text x="700" y="695" text-anchor="middle" class="head">CLIENT A • WINDOWS 10 PRO</text>
+<text x="700" y="730" text-anchor="middle" class="body muted">Domain-joined endpoint used for policy application and access validation</text>
+<text x="700" y="815" text-anchor="middle" class="small muted">ILLUSTRATIVE ARCHITECTURE DIAGRAM — NOT A SCREENSHOT OR PROOF OF CONFIGURATION</text>
+</svg>
