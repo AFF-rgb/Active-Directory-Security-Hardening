@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1100" viewBox="0 0 1600 1100">
+<defs>
+ <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071a30"/><stop offset="1" stop-color="#123d61"/></linearGradient>
+ <linearGradient id="blue" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#164d78"/><stop offset="1" stop-color="#0d3152"/></linearGradient>
+ <style>
+ text{font-family:Arial,Helvetica,sans-serif;fill:#f4f8fc}.title{font-size:39px;font-weight:700}.subtitle{font-size:19px;fill:#b8d0e4}.h{font-size:25px;font-weight:700}.body{font-size:20px}.small{font-size:16px}.tiny{font-size:14px}.muted{fill:#b8d0e4}.dark{fill:#0a2945}.card{fill:url(#blue);stroke:#4c9bd0;stroke-width:2}.light{fill:#eaf5ff;stroke:#83c2ec;stroke-width:2}.line{stroke:#78c6ff;stroke-width:4;fill:none}.green{fill:#b8f3d0}.red{fill:#ffd0d0}.tag{fill:#09243d;stroke:#3b83b4;stroke-width:1.5}
+ </style>
+</defs>
+<rect width="1600" height="1100" fill="url(#bg)"/>
+<text x="70" y="78" class="title">FILE SERVER SECURITY &amp; DEPARTMENTAL ACCESS CONTROL</text>
+<text x="72" y="116" class="subtitle">stech.net lab • SMB share + NTFS permissions + Access-Based Enumeration + Group Policy drive mapping</text>
+
+<!-- server and share -->
+<rect x="70" y="155" width="1460" height="170" rx="22" class="card"/>
+<text x="800" y="198" text-anchor="middle" class="h">DC01-LAB • FILE SERVER</text>
+<text x="800" y="235" text-anchor="middle" class="body">Local folder: C:\CompanyData</text>
+<rect x="470" y="255" width="660" height="48" rx="12" class="tag"/>
+<text x="800" y="286" text-anchor="middle" class="body">SMB share: \\DC01-LAB\CompanyData$</text>
+
+<path d="M800 325 V370" class="line"/>
+<rect x="500" y="370" width="600" height="100" rx="18" class="light"/>
+<text x="800" y="410" text-anchor="middle" class="h dark">Z: DRIVE MAPPING</text>
+<text x="800" y="445" text-anchor="middle" class="body dark">GPO_MapDrive_Z • linked to IT and HR OUs</text>
+<path d="M800 470 V515 M390 515 H1210 M390 515 V555 M1210 515 V555" class="line"/>
+
+<!-- IT / HR -->
+<rect x="70" y="555" width="650" height="300" rx="20" class="light"/>
+<text x="395" y="600" text-anchor="middle" class="h dark">IT USER • a.fadous</text>
+<rect x="130" y="625" width="530" height="58" rx="12" fill="#d8f6e5" stroke="#57ae80" stroke-width="2"/>
+<text x="395" y="662" text-anchor="middle" class="body dark">Visible: IT_Share</text>
+<text x="395" y="718" text-anchor="middle" class="body dark">Group: STECH\GG_IT_Staff</text>
+<text x="395" y="758" text-anchor="middle" class="body dark">NTFS: Modify</text>
+<text x="395" y="810" text-anchor="middle" class="small dark">Write test: IT_Access_Test created</text>
+<rect x="880" y="555" width="650" height="300" rx="20" class="light"/>
+<text x="1205" y="600" text-anchor="middle" class="h dark">HR USER • hr.test</text>
+<rect x="940" y="625" width="530" height="58" rx="12" fill="#d8f6e5" stroke="#57ae80" stroke-width="2"/>
+<text x="1205" y="662" text-anchor="middle" class="body dark">Visible: HR_Share</text>
+<text x="1205" y="718" text-anchor="middle" class="body dark">Group: STECH\GG_HR_Staff</text>
+<text x="1205" y="758" text-anchor="middle" class="body dark">NTFS: Modify</text>
+<text x="1205" y="810" text-anchor="middle" class="small dark">Write test: HR_Access_Test created</text>
+
+<!-- denial checks -->
+<rect x="70" y="885" width="1460" height="135" rx="18" class="card"/>
+<text x="105" y="927" class="h">CROSS-DEPARTMENT ACCESS TESTS</text>
+<text x="105" y="972" class="body"><tspan class="green">PASS</tspan><tspan>  IT user denied direct access to HR_Share</tspan></text>
+<text x="825" y="972" class="body"><tspan class="green">PASS</tspan><tspan>  HR user denied direct access to IT_Share</tspan></text>
+<text x="105" y="1002" class="tiny muted">ABE hides folders without access; NTFS permissions enforce authorization. Effective SMB access is constrained by share and NTFS ACLs.</text>
+
+<text x="800" y="1065" text-anchor="middle" class="small muted">ILLUSTRATIVE PROJECT DIAGRAM • SUMMARIZES DOCUMENTED LAB CONFIGURATION AND REPORTED TEST RESULTS • NOT A WINDOWS SCREENSHOT</text>
+</svg>
