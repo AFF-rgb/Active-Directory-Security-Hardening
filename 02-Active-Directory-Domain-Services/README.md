@@ -83,6 +83,5 @@ The following checks were performed after deployment. They are validation eviden
 ## Security and documentation notes
 
 - Never publish the DSRM password, domain administrator passwords, recovery codes, or other credentials.
-- Do not include screenshots containing passwords or other secrets.
 - The original notes mention DNS values during initial NIC setup. The final adapter output and later DNS validation are documented in Stage 01; this chapter records the AD DS deployment sequence.
 - This chapter documents the GUI workflow used in the lab. PowerShell and command-line tools are included only as post-configuration validation evidence.
